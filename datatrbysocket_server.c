@@ -19,7 +19,7 @@ int main()
   struct sockaddr_in host_addr;
   struct sockaddr_in client_addr;
   unsigned int addrlen;
-  char buf[BUF_SIZE];
+  char buf[BUF_SIZE]="";
   char start[BUF_SIZE] = "";
   int cnt;
   
