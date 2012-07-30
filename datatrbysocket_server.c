@@ -73,20 +73,21 @@ int main()
 	  else if(cnt < BUF_SIZE){
 	    if(memcmp(buf,"close",5) == 0)
 	      {
-		printf("close server!\n");
+		printf("//-*-&-*-&-  Server  -*-*-*-  Closed!  -&-*-&-*//\n");
 		close(clientsfd);
 		exit(1);
 	      }
 	    else{
-	      printf("%s\n-----OVER!------\n",buf);
+	      printf("%s\n//-*-&-*-&-  OVER!  -&-*-&-*-//\n",buf);
 	      close(clientsfd);
+	      memcpy(buf, start, sizeof(char) * BUF_SIZE);
 	      break;
 	    }
 	  }
 	  else if(cnt == BUF_SIZE)
-	    printf("%d\n",cnt);
+	    //printf("%d\n",cnt);
 	    printf("%s",buf);
-	  memcpy(buf, start, sizeof(char) * BUF_SIZE);
+	  //memcpy(buf, start, sizeof(char) * BUF_SIZE);
 	}	
         
 	//close(clientsfd);

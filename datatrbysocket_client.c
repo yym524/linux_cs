@@ -102,11 +102,12 @@ int main(int argc, char **argv)
 	   //break;
 	 }
 	 else if(wdnum == 0){
+	   printf("\n//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
 	   close(fd);
 	   close(sockfd);
 	   exit(0);
 	 }
-	 memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
+	 //memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
 	 break;
 
        case WORDS_TRANS:
@@ -119,12 +120,13 @@ int main(int argc, char **argv)
 	   }
 	 else{
 	   printf("%s\n",buf);
+	    printf("//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
 	   close(sockfd);
 	   exit(0);
 	 }  
        }
+       memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
      }
      
-     close(sockfd);
      return 0;
 }
