@@ -40,7 +40,7 @@ int main(int argc, char **argv)
      int sendnum;
      
      if(argc != 3){
-          printf("argument error!\n");
+          printf("argument error!\nYou can input like this:\n./client file filename\n./client words what_you_want_to_say\n");
           return 1;
      }
 
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 	   }
 	 else{
 	   printf("%s\n",buf);
-	    printf("//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
+	   printf("//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
 	   close(sockfd);
 	   exit(0);
 	 }  
