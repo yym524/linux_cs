@@ -29,17 +29,21 @@ int main()
       printf("socket error!\n");
       exit(1);
     }
+  printf("socket success!\n");
   host_addr.sin_family=AF_INET;
   host_addr.sin_port=htons(SERV_PORT);
   host_addr.sin_addr.s_addr=INADDR_ANY;
   bzero(&(host_addr.sin_zero),8);
   ret=bind(sockfd, (struct sockaddr_in *)&host_addr,
 	   sizeof(host_addr));
+
   if(ret == -1)
     {
-      printf("bind error!\n");
+      perror("bind error!\n");
       exit(1);
     }
+  printf("bind success!\n");
+
   while(1){
     ret=listen(sockfd, BACKLOG);
     if(ret == -1)
@@ -47,6 +51,7 @@ int main()
 	perror("listen error!\n");
 	exit(1);
       }
+    printf("listen success!\n");
     printf("Waiting for the Client connection.\n");
     addrlen=sizeof(struct sockaddr_in);
     
@@ -60,6 +65,7 @@ int main()
 	    perror("accept error!\n");
 	    continue;
           }
+	printf("accept success!\n");
 	printf("Client IP: %s \nRecived:\n",
 	       inet_ntoa(client_addr.sin_addr));
 	while(1){
@@ -85,55 +91,9 @@ int main()
 	    }
 	  }
 	  else if(cnt == BUF_SIZE)
-	    //printf("%d\n",cnt);
 	    printf("%s",buf);
-	  //memcpy(buf, start, sizeof(char) * BUF_SIZE);
 	}	
-        
-	//close(clientsfd);
       }
   }//************************************************
- /*   
-     ret=listen(sockfd, BACKLOG);
-     if(ret == -1)
-     {
-          perror("listen error!\n");
-          exit(1);
-     }
-     printf("Waiting for the Client connection.\n");
-     addrlen=sizeof(struct sockaddr_in);
-       
-     while(1)
-     {
-          clientsfd=accept(sockfd, 
-                           (struct sockaddr_in *)&client_addr,
-                           &addrlen);
-          if(clientsfd == -1)
-          {
-               perror("accept error!\n");
-               continue;
-          }
-          printf("Client IP: %s \nRecive:\n",
-                 inet_ntoa(client_addr.sin_addr));
-          while(1){
-               
-               cnt= recv(clientsfd, buf, BUF_SIZE, 0);
-               if(cnt == -1)
-               {
-                    perror("recv error!\n");
-                    exit(1);
-               }
-               else if(cnt < BUF_SIZE){
-                    buf[cnt] = NULL;
-                    printf("%s",buf);
-                    exit(1);
-               }
-               
-               printf("%s",buf);
-          }
-          
-          close(clientsfd);
-     }*/
-     
      return 0;
 }
