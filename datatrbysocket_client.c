@@ -74,7 +74,7 @@ int main(int argc, char **argv)
      serveraddr.sin_addr.s_addr = INADDR_ANY;
      bzero(&(serveraddr.sin_zero), 8);
      
-     if((ret = connect(sockfd,(struct sockaddr_in *)&serveraddr, addrlen)) <0){
+     if((ret = connect(sockfd,(struct sockaddr *)&serveraddr, addrlen)) <0){
           printf("connect error!\n");
           exit(-1);
      }
@@ -99,15 +99,14 @@ int main(int argc, char **argv)
 	   }
 	   lastpos += wdnum;
 	   printf("%s", buf);
-	   //break;
 	 }
 	 else if(wdnum == 0){
 	   printf("\n//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
+	   memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
 	   close(fd);
 	   close(sockfd);
 	   exit(0);
 	 }
-	 //memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
 	 break;
 
        case WORDS_TRANS:
