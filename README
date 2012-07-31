@@ -1,5 +1,27 @@
-This file is some program what is about transmission files with socket.
-Now, I want to add some other function to make it work like cs mode.
-/**************&&&&&******V1.0******&&&&&***************/
-2012-07-30 Morning
-/**************&&&&&&&&&&&****&&&&&&&&&&&***************/
+/******************&&&&&******README******&&&&&*******************/
+*
+*  This file is some program what is about transmission files	 *
+*  with socket. Now, I want to add some other function to make 	 *
+*  it work like cs mode.       	   	      	       	  	 *
+*								 *
+/******************&&&&&&&&&&&&****&&&&&&&&&&&&*******************/
+*								 *
+*								 *
+*								 *
+/*******************&&&&&******V1.0******&&&&&********************/
+*								 *
+*			2012-07-30 Morning			 *
+*								 *
+/******************&&&&&&&&&&&&****&&&&&&&&&&&&*******************/
+*								 *
+*								 *
+*								 *
+/*******************&&&&&******V1.1******&&&&&********************/
+*								 *
+*		2012-07-31 Afternoon				 *
+*		v1.1 maybe have some question			 *
+*  for example,when we use file mode, the last string can not	 *
+*  print out at the server.	      	       	      	  	 *
+*  So, I fixed it at the follwing works.			 *
+*								 *
+/******************&&&&&&&&&&&&****&&&&&&&&&&&&*******************/
