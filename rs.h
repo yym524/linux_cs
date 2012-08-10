@@ -17,7 +17,7 @@ int sys_err(const char *str){
      exit(-1);
 } 
 
-void server_recv(int sock_fd){
+void server_process(int sock_fd){
      char buf[BUF_SIZE]="", start[BUF_SIZE] = "";
      char send_buf[BUF_SIZE]="";
      int cnt,send_num;
@@ -42,5 +42,34 @@ void server_recv(int sock_fd){
           else 
                printf("send success:%s\n",send_buf);
           memcpy(send_buf,start,sizeof(char) * BUF_SIZE);
+     }
+}
+
+void client_process(int sock_fd){
+     int cnt;
+     int sendnum;
+     char buf[BUF_SIZE];
+     char endline[BUF_SIZE] = "";
+     while(1){
+          printf("Please input words you want say:");
+          fgets(buf,BUF_SIZE,stdin);
+          sendnum = strlen(buf);
+          cnt=send(sock_fd, buf, sendnum, 0);
+          if(cnt == -1)
+               sys_err("send error!\n");
+          else{
+               printf("%s\n",buf);
+               printf("//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
+               memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
+          } 
+          cnt = recv(sock_fd, buf, BUF_SIZE, 0);
+          if(cnt == -1)
+                sys_err("recv error!\n");
+          else{
+               printf("//-*-&-*-&- Begin Recieve -&-*-&-*-//\n");
+               printf("%s",buf);
+               printf("\n//-*-&-*-&- Recieved Over! -&-*-&-*-//\n");
+               memcpy(buf, endline, sizeof(char) * BUF_SIZE);
+          }
      }
 }

@@ -8,6 +8,7 @@
 #include<unistd.h>
 #include<string.h>
 #include<fcntl.h>
+#include"rs.h"
 
 #define SERV_PORT     1030
 #define BACKLOG       10
@@ -15,21 +16,10 @@
 #define FILE_TRANS    1
 #define WORDS_TRANS   2
 
-int file_trans(char *filename){
-  int fd;
-  if((fd = open(filename, O_RDONLY)) <0){
-    printf("open file %s error!\n", filename);
-    exit(-1);
-  }
-  else
-    return fd;
-}
-
 int main(int argc, char **argv)
 {
      int ret;
      int sockfd;
-     int fd;
      struct sockaddr_in * hostaddr;
      struct sockaddr_in serveraddr;
      int addrlen = sizeof(struct sockaddr);
@@ -39,93 +29,43 @@ int main(int argc, char **argv)
      int casenum;
      int sendnum;
      
-     if(argc != 3){
-          printf("argument error!\nYou can input like this:\n./client file filename\n./client words what_you_want_to_say\n");
-          return 1;
-     }
-
-     if(strcmp(argv[1],"file") == 0)
-       casenum = FILE_TRANS;
-     else if(strcmp(argv[1], "words") == 0)
-       casenum = WORDS_TRANS;
-     else{
-       printf("wrong type choose!\n");
-       exit(1);
-     }
-
-     switch(casenum){
-     case FILE_TRANS:
-       fd = file_trans(argv[2]);
-       break;
-     case WORDS_TRANS:
-       strcpy(buf,argv[2]);
-       break;
-     default:
-       printf("argument error!\nYou can input \'file\' or \'words\'\n");
-     }
-     
-     if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) <0){
-          printf("socket error!\n");
-          return 1;
-     }
+     if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) <0)
+          sys_err("socket error!\n");
+     else 
+          printf ("socket success!\n");
      
      serveraddr.sin_family = AF_INET;
      serveraddr.sin_port   = htons(SERV_PORT);
      serveraddr.sin_addr.s_addr = INADDR_ANY;
      bzero(&(serveraddr.sin_zero), 8);
      
-     if((ret = connect(sockfd,(struct sockaddr *)&serveraddr, addrlen)) <0){
-          printf("connect error!\n");
-          exit(-1);
-     }
-     
-     off_t lastpos = 0;
-     int wdnum = 0;
+     if((ret = connect(sockfd,(struct sockaddr *)&serveraddr, addrlen)) <0)
+          sys_err("connect error!\n");
+     else 
+          printf("connect success!\n");
      printf("Send:\n");
 
      while(1){
-       switch(casenum){
-       case FILE_TRANS:
-	 lseek(fd, lastpos, SEEK_SET);
-	 wdnum = read(fd, buf, 255);
-	 if(wdnum < 0){
-	   printf("read file %s error!\n", argv[2]);
-	   exit(-1);
-	 } 
-	 else if(wdnum > 0){
-	   if(cnt = send(sockfd, buf, wdnum,0) <0){
-	     printf("send error!\n");
-	     exit(-1);
-	   }
-	   lastpos += wdnum;
-	   printf("%s", buf);
-	 }
-	 else if(wdnum == 0){
-	   printf("\n//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
-	   memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
-	   close(fd);
-	   close(sockfd);
-	   exit(0);
-	 }
-	 break;
-
-       case WORDS_TRANS:
-	 sendnum = strlen(buf);
-	 cnt=send(sockfd, buf, sendnum, 0);
-	 if(cnt == -1)
-	   {
-	     perror("send error\n");
-	     exit(-1);
-	   }
-	 else{
-	   printf("%s\n",buf);
-	   printf("//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
-	   close(sockfd);
-	   exit(0);
-	 }  
-       }
-       memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
-     }
-     
+          printf("Please input words you want say:");
+          fgets(buf,BUF_SIZE,stdin);
+          sendnum = strlen(buf);
+          cnt=send(sockfd, buf, sendnum, 0);
+          if(cnt == -1)
+               sys_err("send error!\n");
+          else{
+               printf("%s\n",buf);
+               printf("//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
+               memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
+          } 
+          cnt = recv(sockfd, buf, BUF_SIZE, 0);
+          if(cnt == -1)
+               sys_err("recv error!\n");
+          else{
+               printf("//-*-&-*-&- Begin Recieve -&-*-&-*-//\n");
+               printf("%s",buf);
+               printf("\n//-*-&-*-&- Recieved Over! -&-*-&-*-//\n");
+               memcpy(buf, endline, sizeof(char) * BUF_SIZE);
+          }
+     } 
      return 0;
 }

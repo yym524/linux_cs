@@ -65,7 +65,7 @@ int main()
                sys_err("fork error!\n");
           else if(pid == 0){
                close(sockfd);
-               server_recv(clientsfd);
+               server_process(clientsfd);
           }
           else{
                close(clientsfd);
