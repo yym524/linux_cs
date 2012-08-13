@@ -15,7 +15,7 @@ void gettime(char *str, int len){
      else
           cur_tm = localtime((const time_t *)&today);
      
-     strftime(str, len, "%F  %T", cur_tm);
+     strftime(str, len, "%F %T", cur_tm);
      //we can get format like this: 2012-08-10  13:07:08
 }
 
