@@ -6,7 +6,7 @@
 #include<string.h>
 #include<netinet/in.h>
 #include<arpa/inet.h>
-#include"rs.h"
+#include"rs_fdw.h"
 
 #define SERV_PORT 1030
 #define BACKLOG 10

@@ -31,6 +31,17 @@ void add_node(char *name_str, char *time_str, char *info_str, data_List *dt_list
      //printf("%s\n",pNew->data);
 }
 
+void delete_list(data_List *dt_list){
+     data_List *pNode, tmp;
+     pNode = dt_list->next;
+     dt_list->next = NULL;
+     while(pNode != NULL){
+          tmp = pNode->next;
+          free(pNode);
+          pNode = tmp;
+     }
+}
+
 void data_format(data_List *dt_list, FILE *fp){
      
      char name_str[26] = "";
@@ -109,9 +120,10 @@ int main(int argc, char **argv){
           exit(EXIT_FAILURE);
      }
   
-     data_List *dt_list;
+     data_List *dt_list, header;
      dt_list = init_linkl();
      data_format(dt_list, fp);
+     header = dt_list;
 
      while(dt_list->next != NULL){
           dt_list = dt_list->next;
@@ -121,7 +133,8 @@ int main(int argc, char **argv){
           }
           printf("insert %s\n",dt_list->data);
      }
-
+     
+     delete_list(header);
      mysql_close(conn);
      exit(EXIT_SUCCESS);
 }
