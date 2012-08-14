@@ -8,7 +8,7 @@
 #include<unistd.h>
 #include<string.h>
 #include<fcntl.h>
-#include"rs.h"
+#include"rs_fdw.h"
 
 #define SERV_PORT     1030
 #define BACKLOG       10
@@ -42,27 +42,5 @@ int main(int argc, char **argv)
 
      client_process(sockfd);
 
-//     while(1){
-//          printf("Please input words you want say:");
-//          fgets(buf,BUF_SIZE,stdin);
-//          sendnum = strlen(buf);
-//          cnt=send(sockfd, buf, sendnum, 0);
-//          if(cnt == -1)
-//               sys_err("send error!\n");
-//          else{
-//               printf("%s\n",buf);
-//               printf("//-*-&-*-&-  Send  -*-*-*-  Over!  -&-*-&-//\n");
-//               memcpy(buf , endline, sizeof(char)*BUF_SIZE); //恢复原始状态
-//          } 
-//          cnt = recv(sockfd, buf, BUF_SIZE, 0);
-//          if(cnt == -1)
-//               sys_err("recv error!\n");
-//          else{
-//               printf("//-*-&-*-&- Begin Recieve -&-*-&-*-//\n");
-//               printf("%s",buf);
-//               printf("\n//-*-&-*-&- Recieved Over! -&-*-&-*-//\n");
-//               memcpy(buf, endline, sizeof(char) * BUF_SIZE);
-//          }
-//     } 
      return 0;
 }
